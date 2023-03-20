@@ -66,6 +66,19 @@ function encodeCreatePool(
   return data;
 }
 
+function encodeAllocateOrDeallocate(
+  shouldAllocate: boolean,
+  useMax: boolean,
+  poolId: string,
+  amount: BigNumber,
+): string {
+  let data = `0x${useMax ? '1' : '0'}${shouldAllocate ? '1' : '3'}`;
+  data += poolId;
+  data += packAmount(amount);
+
+  return data;
+}
+
 function encodeClaim(
   poolId: string,
   fee0: BigNumber,
