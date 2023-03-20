@@ -38,6 +38,34 @@ function encodeCreatePair(
   return `0x${CREATE_PAIR}${token0Packed}${token1Packed}`;
 }
 
+function encodeCreatePool(
+  pairId: string,
+  controller: string,
+  priorityFee: BigNumber,
+  fee: BigNumber,
+  vol: BigNumber,
+  dur: BigNumber,
+  jit: BigNumber,
+  maxPrice: BigNumber,
+  price: BigNumber
+): string {
+  const packedMaxPrice = packAmount(maxPrice);
+
+  let data = `0x${CREATE_POOL}`;
+  data += pairId;
+  data += controller.substring(2, controller.length);
+  data += priorityFee._hex;
+  data += fee._hex;
+  data += vol._hex;
+  data += dur._hex;
+  data += jit._hex;
+  data += toHex(36 + packedMaxPrice.length);
+  data += packedMaxPrice
+  data += packAmount(price);
+
+  return data;
+}
+
 function encodeClaim(
   poolId: string,
   fee0: BigNumber,
