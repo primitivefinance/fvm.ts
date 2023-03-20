@@ -1,5 +1,14 @@
 import { BigNumber } from "ethers";
 
+const ALLOCATE = "0x01";
+const DEALLOCATE = "0x03";
+const CLAIM = "0x04";
+const SWAP_QUOTE = "0x05";
+const SWAP_ASSET = "0x06";
+const CREATE_POOL = "0x0B";
+const CREATE_PAIR = "0x0C";
+const INSTRUCTION_JUMP = "0xAA";
+
 function toHex(input: number) {
   return forceLeadingZero(input.toString(16));
 }
@@ -16,7 +25,17 @@ function packAmount(amount: BigNumber) {
     ++power;
   }
 
-  return `${forceLeadingZero(toHex(power))}${forceLeadingZero(amount._hex)}`;
+  return `${toHex(power)}${forceLeadingZero(amount._hex)}`;
+}
+
+function encodeCreatePair(
+  token0: string,
+  token1: string,
+): string {
+  let token0Packed = token0.substring(2, token0.length);
+  let token1Packed = token1.substring(2, token1.length);
+
+  return `0x${CREATE_PAIR}${token0Packed}${token1Packed}`;
 }
 
 function encodeClaim(
@@ -29,5 +48,5 @@ function encodeClaim(
 
   const pointer = 1 + 8 + fee0Packed.length;
 
-  return `0x04${poolId}${pointer}${fee0Packed}${fee1Packed}`;
+  return `0x04${poolId}${toHex(pointer)}${fee0Packed}${fee1Packed}`;
 }
