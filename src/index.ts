@@ -28,7 +28,7 @@ function packAmount(amount: BigNumber) {
   return `${toHex(power)}${forceLeadingZero(amount._hex)}`;
 }
 
-function encodeCreatePair(
+export function encodeCreatePair(
   token0: string,
   token1: string,
 ): string {
@@ -38,7 +38,7 @@ function encodeCreatePair(
   return `0x${CREATE_PAIR}${token0Packed}${token1Packed}`;
 }
 
-function encodeCreatePool(
+export function encodeCreatePool(
   pairId: string,
   controller: string,
   priorityFee: BigNumber,
@@ -66,7 +66,7 @@ function encodeCreatePool(
   return data;
 }
 
-function encodeAllocateOrDeallocate(
+export function encodeAllocateOrDeallocate(
   shouldAllocate: boolean,
   useMax: boolean,
   poolId: string,
@@ -79,7 +79,7 @@ function encodeAllocateOrDeallocate(
   return data;
 }
 
-function encodeClaim(
+export function encodeClaim(
   poolId: string,
   fee0: BigNumber,
   fee1: BigNumber,
@@ -91,7 +91,7 @@ function encodeClaim(
   return `0x04${poolId}${toHex(pointer)}${fee0Packed}${fee1Packed}`;
 }
 
-function encodeSwap(
+export function encodeSwap(
   useMax: boolean,
   poolId: string,
   amount0: BigNumber,
