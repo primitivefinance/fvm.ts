@@ -16,5 +16,18 @@ function packAmount(amount: BigNumber) {
     ++power;
   }
 
-  return `${toHex(power)}${forceLeadingZero(amount._hex)}`;
+  return `${forceLeadingZero(toHex(power))}${forceLeadingZero(amount._hex)}`;
+}
+
+function encodeClaim(
+  poolId: string,
+  fee0: BigNumber,
+  fee1: BigNumber,
+): string {
+  const fee0Packed = packAmount(fee0);
+  const fee1Packed = packAmount(fee1);
+
+  const pointer = 1 + 8 + fee0Packed.length;
+
+  return `0x04${poolId}${pointer}${fee0Packed}${fee1Packed}`;
 }
