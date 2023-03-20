@@ -86,8 +86,25 @@ function encodeClaim(
 ): string {
   const fee0Packed = packAmount(fee0);
   const fee1Packed = packAmount(fee1);
-
   const pointer = 1 + 8 + fee0Packed.length;
 
   return `0x04${poolId}${toHex(pointer)}${fee0Packed}${fee1Packed}`;
+}
+
+function encodeSwap(
+  useMax: boolean,
+  poolId: string,
+  amount0: BigNumber,
+  amount1: BigNumber,
+  sellAsset: boolean,
+): string {
+  const amount0Packed = packAmount(amount0);
+
+  let data = `0x${useMax ? '1' : '0'}${sellAsset ? '6' : '5'}`;
+  data += poolId;
+  data += toHex(1 + 8 + amount0Packed.length);
+  data += amount0Packed;
+  data += packAmount(amount1);
+
+  return data;
 }
