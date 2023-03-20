@@ -9,15 +9,19 @@ const CREATE_POOL = "0x0B";
 const CREATE_PAIR = "0x0C";
 const INSTRUCTION_JUMP = "0xAA";
 
-function toHex(input: number) {
+export function formatHex(input: BigNumber) {
+  return input._hex.substring(2, input._hex.length);
+}
+
+export function toHex(input: number) {
   return forceLeadingZero(input.toString(16));
 }
 
-function forceLeadingZero(input: string) {
-  return input.length % 2 ? input : `0${input}`;
+export function forceLeadingZero(input: string) {
+  return input.length % 2 === 0 ? input : `0${input}`;
 }
 
-function packAmount(amount: BigNumber) {
+export function packAmount(amount: BigNumber) {
   let power = 0;
 
   while (amount.mod(10).eq(0)) {
@@ -25,7 +29,7 @@ function packAmount(amount: BigNumber) {
     ++power;
   }
 
-  return `${toHex(power)}${forceLeadingZero(amount._hex)}`;
+  return `${toHex(power)}${formatHex(amount)}`;
 }
 
 export function encodeCreatePair(
@@ -54,13 +58,13 @@ export function encodeCreatePool(
   let data = `0x${CREATE_POOL}`;
   data += pairId;
   data += controller.substring(2, controller.length);
-  data += priorityFee._hex;
-  data += fee._hex;
-  data += vol._hex;
-  data += dur._hex;
-  data += jit._hex;
+  data += formatHex(priorityFee);
+  data += formatHex(fee);
+  data += formatHex(vol);
+  data += formatHex(dur);
+  data += formatHex(jit);
   data += toHex(36 + packedMaxPrice.length);
-  data += packedMaxPrice
+  data += packedMaxPrice;
   data += packAmount(price);
 
   return data;
