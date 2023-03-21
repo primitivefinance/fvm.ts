@@ -1,13 +1,13 @@
 import { BigNumber } from "ethers";
 
-const ALLOCATE = "0x01";
-const DEALLOCATE = "0x03";
-const CLAIM = "0x04";
-const SWAP_QUOTE = "0x05";
-const SWAP_ASSET = "0x06";
-const CREATE_POOL = "0x0B";
-const CREATE_PAIR = "0x0C";
-const INSTRUCTION_JUMP = "0xAA";
+const ALLOCATE = "01";
+const DEALLOCATE = "03";
+const CLAIM = "04";
+const SWAP_QUOTE = "05";
+const SWAP_ASSET = "06";
+const CREATE_POOL = "0B";
+const CREATE_PAIR = "0C";
+const INSTRUCTION_JUMP = "AA";
 
 export function formatHex(input: BigNumber) {
   return input._hex.substring(2, input._hex.length);
