@@ -9,6 +9,7 @@ import {
   int8ToHex,
   encodeCreatePair,
   encodeCreatePool,
+  encodeAllocateOrDeallocate,
 } from '../src/index';
 
 describe('bigNumbertoHex', () => {
@@ -86,6 +87,22 @@ describe('encodeCreatePool', () => {
       + '25'
       + '1201'
       + '110f').toUpperCase()
+    );
+  });
+});
+
+describe('encodeAllocateOrDeallocate', () => {
+  it('should encode allocate', () => {
+    const data = encodeAllocateOrDeallocate(
+      true,
+      false,
+      BigNumber.from(42), // 0000002a
+      BigNumber.from('1000000000000000000'), // 1201
+    );
+
+    assert.equal(
+      data.toUpperCase(),
+      '0x010000002a1201'.toUpperCase()
     );
   });
 });
