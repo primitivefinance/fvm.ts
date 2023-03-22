@@ -1,10 +1,10 @@
 import { BigNumber } from "ethers";
 
-const ALLOCATE = "01";
-const DEALLOCATE = "03";
+const ALLOCATE = "1";
+const DEALLOCATE = "3";
 const CLAIM = "04";
-const SWAP_QUOTE = "05";
-const SWAP_ASSET = "06";
+const SWAP_QUOTE = "5";
+const SWAP_ASSET = "6";
 const CREATE_POOL = "0B";
 const CREATE_PAIR = "0C";
 const INSTRUCTION_JUMP = "AA";
@@ -84,7 +84,7 @@ export function encodeAllocateOrDeallocate(
   poolId: BigNumber,
   amount: BigNumber,
 ): string {
-  let data = `0x${useMax ? '1' : '0'}${shouldAllocate ? '1' : '3'}`;
+  let data = `0x${useMax ? '1' : '0'}${shouldAllocate ? ALLOCATE : DEALLOCATE}`;
   data += bigNumbertoHex(poolId).padStart(8, '0');
   data += packAmount(amount);
 
@@ -118,7 +118,7 @@ export function encodeSwap(
 ): string {
   const amount0Packed = packAmount(amount0);
 
-  let data = `0x${useMax ? '1' : '0'}${sellAsset ? '6' : '5'}`;
+  let data = `0x${useMax ? '1' : '0'}${sellAsset ? SWAP_ASSET : SWAP_QUOTE}`;
   data += bigNumbertoHex(poolId).padStart(8, '0');
   data += int8ToHex(6 + amount0Packed.length / 2);
   data += amount0Packed;
