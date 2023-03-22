@@ -21,7 +21,7 @@ export function bigNumbertoHex(input: BigNumber): string {
 /**
  * Converts a uint8 into a hexadecimal string without the `0x` prefix.
  * @param input uint8 to convert
- * @returns Hexadecimal representation of the input padded to 2 characters
+ * @returns Hexadecimal representation of the input
  */
 export function int8ToHex(input: number) {
   if (input > 0xff) {
@@ -31,6 +31,11 @@ export function int8ToHex(input: number) {
   return input.toString(16).padStart(2, '0');
 }
 
+/**
+ * Packs a BigNumber amount using our custom encoding (see README.md).
+ * @param amount BigNumber to pack
+ * @returns Packed amount as a hexadecimal string
+ */
 export function packAmount(amount: BigNumber) {
   let power = 0;
 
