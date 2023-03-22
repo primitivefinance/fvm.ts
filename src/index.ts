@@ -72,6 +72,19 @@ export function encodeCreatePair(
   return `0x${CREATE_PAIR}${token0Packed}${token1Packed}`;
 }
 
+/**
+ * Encodes the data for a CREATE_POOL operation.
+ * @param pairId Id of the pair to use to create the pool
+ * @param controller Address of the controller of the pool
+ * @param priorityFee Priority fee of the pool
+ * @param fee Fee of the pool (in 10,000)
+ * @param vol Volatility of the pool
+ * @param dur Duration of the pool (in days)
+ * @param jit Just In Time liquidity (in blocks)
+ * @param maxPrice Maximum price of the pool
+ * @param price Actual market price of the pair
+ * @returns Encoded operation as a hexadecimal string (without the `0x` prefix)
+ */
 export function encodeCreatePool(
   pairId: BigNumber,
   controller: string,
