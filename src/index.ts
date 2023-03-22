@@ -120,7 +120,7 @@ export function encodeSwap(
 
   let data = `0x${useMax ? '1' : '0'}${sellAsset ? '6' : '5'}`;
   data += bigNumbertoHex(poolId).padStart(8, '0');
-  data += int8ToHex(1 + 8 + amount0Packed.length);
+  data += int8ToHex(6 + amount0Packed.length / 2);
   data += amount0Packed;
   data += packAmount(amount1);
 
