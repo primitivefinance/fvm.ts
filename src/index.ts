@@ -98,7 +98,7 @@ export function encodeClaim(
 ): string {
   const fee0Packed = packAmount(fee0);
   const fee1Packed = packAmount(fee1);
-  const pointer = 1 + 8 + fee0Packed.length;
+  const pointer = 6 + fee0Packed.length / 2;
 
   let data = `0x${CLAIM}`;
   data += bigNumbertoHex(poolId).padStart(8, '0');
