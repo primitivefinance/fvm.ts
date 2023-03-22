@@ -53,7 +53,7 @@ export function packAmount(amount: BigNumber) {
 }
 
 /**
- * Encodes the data for a CREATE_PAIR operation.
+ * Encodes the data for a `CREATE_PAIR` operation.
  * @param token0 First token address of the pair
  * @param token1 Second token address of the pair
  * @returns Hexadecimal representation of the encoded data
@@ -73,16 +73,16 @@ export function encodeCreatePair(
 }
 
 /**
- * Encodes the data for a CREATE_POOL operation.
+ * Encodes the data for a `CREATE_POOL` operation.
  * @param pairId Id of the pair to use to create the pool
  * @param controller Address of the controller of the pool
- * @param priorityFee Priority fee of the pool
- * @param fee Fee of the pool (in 10,000)
+ * @param priorityFee Priority fee of the pool (10000 being 100%)
+ * @param fee Fee of the pool (10000 being 100%)
  * @param vol Volatility of the pool
  * @param dur Duration of the pool (in days)
- * @param jit Just In Time liquidity (in blocks)
- * @param maxPrice Maximum price of the pool
- * @param price Actual market price of the pair
+ * @param jit Just In Time liquidity policy (in blocks)
+ * @param maxPrice Maximum price of the pool (expressed using the quote token)
+ * @param price Actual market price of the pair (expressed using the quote token)
  * @returns Encoded operation as a hexadecimal string
  */
 export function encodeCreatePool(
@@ -117,6 +117,14 @@ export function encodeCreatePool(
   return data;
 }
 
+/**
+ * Encodes the data for an `ALLOCATE` or `DEALLOCATE` operation.
+ * @param shouldAllocate
+ * @param useMax
+ * @param poolId
+ * @param amount
+ * @returns
+ */
 export function encodeAllocateOrDeallocate(
   shouldAllocate: boolean,
   useMax: boolean,
