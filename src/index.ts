@@ -15,18 +15,18 @@ const CREATE_PAIR = "0C";
 const INSTRUCTION_JUMP = "AA";
 
 /**
- * Converts a BigNumber into a hexadecimal string without the `0x` prefix.
+ * Converts a BigNumber into a hexadecimal string.
  * @param input BigNumber to convert
- * @returns Hexadecimal representation of the input (without the `0x` prefix)
+ * @returns Hexadecimal representation of the input
  */
 export function bigNumbertoHex(input: BigNumber): string {
   return input._hex.substring(2, input._hex.length);
 }
 
 /**
- * Converts a uint8 into a hexadecimal string without the `0x` prefix.
+ * Converts a uint8 into a hexadecimal string.
  * @param input uint8 to convert
- * @returns Hexadecimal representation of the input (without the `0x` prefix)
+ * @returns Hexadecimal representation of the input
  */
 export function int8ToHex(input: number) {
   if (input > 0xff) {
@@ -39,7 +39,7 @@ export function int8ToHex(input: number) {
 /**
  * Packs a BigNumber amount using our custom encoding (see README.md).
  * @param amount BigNumber to pack
- * @returns Packed amount as a hexadecimal string (without the `0x` prefix)
+ * @returns Packed amount as a hexadecimal string
  */
 export function packAmount(amount: BigNumber) {
   let power = 0;
@@ -56,7 +56,7 @@ export function packAmount(amount: BigNumber) {
  * Encodes the data for a CREATE_PAIR operation.
  * @param token0 First token address of the pair
  * @param token1 Second token address of the pair
- * @returns Hexadecimal representation of the encoded data (with the `0x` prefix)
+ * @returns Hexadecimal representation of the encoded data
  */
 export function encodeCreatePair(
   token0: string,
@@ -83,7 +83,7 @@ export function encodeCreatePair(
  * @param jit Just In Time liquidity (in blocks)
  * @param maxPrice Maximum price of the pool
  * @param price Actual market price of the pair
- * @returns Encoded operation as a hexadecimal string (without the `0x` prefix)
+ * @returns Encoded operation as a hexadecimal string
  */
 export function encodeCreatePool(
   pairId: BigNumber,
