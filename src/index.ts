@@ -18,6 +18,11 @@ export function bigNumbertoHex(input: BigNumber): string {
   return input._hex.substring(2, input._hex.length);
 }
 
+/**
+ * Converts a uint8 into a hexadecimal string without the `0x` prefix.
+ * @param input uint8 to convert
+ * @returns Hexadecimal representation of the input padded to 2 characters
+ */
 export function int8ToHex(input: number) {
   if (input > 0xff) {
     throw new Error('Pointer too large');
