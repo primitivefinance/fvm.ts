@@ -119,10 +119,10 @@ export function encodeCreatePool(
 
 /**
  * Encodes the data for an `ALLOCATE` or `DEALLOCATE` operation.
- * @param shouldAllocate
- * @param useMax
- * @param poolId
- * @param amount
+ * @param shouldAllocate True to `ALLOCATE`, false to `DEALLOCATE`
+ * @param useMax True to use the complete balance of the sender
+ * @param poolId Id of the pool to allocate/deallocate from
+ * @param amount Amount of liquidity to allocate/deallocate
  * @returns
  */
 export function encodeAllocateOrDeallocate(
