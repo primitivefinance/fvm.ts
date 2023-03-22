@@ -123,7 +123,7 @@ export function encodeCreatePool(
  * @param useMax True to use the complete balance of the sender
  * @param poolId Id of the pool to allocate/deallocate from
  * @param amount Amount of liquidity to allocate/deallocate
- * @returns
+ * @returns Encoded operation as a hexadecimal string
  */
 export function encodeAllocateOrDeallocate(
   shouldAllocate: boolean,
@@ -143,7 +143,7 @@ export function encodeAllocateOrDeallocate(
  * @param poolId Id of the pool to claim from
  * @param fee0 Amount of fee0 to claim
  * @param fee1 Amount of fee1 to claim
- * @returns
+ * @returns Encoded operation as a hexadecimal string
  */
 export function encodeClaim(
   poolId: BigNumber,
@@ -163,6 +163,15 @@ export function encodeClaim(
   return data;
 }
 
+/**
+ * Encodes a `SWAP` operation.
+ * @param useMax True to use all the balance of the sender
+ * @param poolId Id of the pool to swap from
+ * @param amount0 Amount of asset tokens to swap
+ * @param amount1 Amount of quote tokens to swap
+ * @param sellAsset True to swap asset tokens for quote tokens, false otherwise
+ * @returns Encoded operation as a hexadecimal string
+ */
 export function encodeSwap(
   useMax: boolean,
   poolId: BigNumber,
