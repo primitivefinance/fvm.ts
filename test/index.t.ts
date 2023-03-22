@@ -11,6 +11,7 @@ import {
   encodeCreatePool,
   encodeAllocateOrDeallocate,
   encodeClaim,
+  encodeSwap,
 } from '../src/index';
 
 describe('bigNumbertoHex', () => {
@@ -133,6 +134,23 @@ describe('encodeClaim', () => {
     assert.equal(
       data.toUpperCase(),
       ('0x04' + '0000002a' + '08' + '0805' + '014b').toUpperCase()
+    );
+  });
+});
+
+describe('encodeSwap', () => {
+  it('should encode swap', () => {
+    const data = encodeSwap(
+      false,
+      BigNumber.from(42), // 0000002a
+      BigNumber.from('1000000000000000000'), // 1201
+      BigNumber.from('1700000000'), // 0805
+      true
+    );
+
+    assert.equal(
+      data.toUpperCase(),
+      ('0x06' + '0000002a' + '08' + '1201' + '0811').toUpperCase(),
     );
   });
 });
