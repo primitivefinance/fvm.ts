@@ -1,5 +1,10 @@
 import { BigNumber } from "ethers";
 
+/**
+ * The following constants are the opcodes for the different operations. They are
+ * represented as hexadecimal strings without the `0x` prefix. Strings with a
+ * single character will be packed later with an extra parameter.
+ */
 const ALLOCATE = "1";
 const DEALLOCATE = "3";
 const CLAIM = "04";
