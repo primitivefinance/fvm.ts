@@ -9,6 +9,11 @@ const CREATE_POOL = "0B";
 const CREATE_PAIR = "0C";
 const INSTRUCTION_JUMP = "AA";
 
+/**
+ * Converts a BigNumber into a hexadecimal string without the `0x` prefix.
+ * @param input BigNumber to convert
+ * @returns Hexadecimal representation of the input
+ */
 export function bigNumbertoHex(input: BigNumber): string {
   return input._hex.substring(2, input._hex.length);
 }
