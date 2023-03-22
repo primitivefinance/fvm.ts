@@ -10,6 +10,7 @@ import {
   encodeCreatePair,
   encodeCreatePool,
   encodeAllocateOrDeallocate,
+  encodeClaim,
 } from '../src/index';
 
 describe('bigNumbertoHex', () => {
@@ -103,6 +104,35 @@ describe('encodeAllocateOrDeallocate', () => {
     assert.equal(
       data.toUpperCase(),
       '0x010000002a1201'.toUpperCase()
+    );
+  });
+
+  it('should encode deallocate', () => {
+    const data = encodeAllocateOrDeallocate(
+      false,
+      false,
+      BigNumber.from(42), // 0000002a
+      BigNumber.from('1000000000000000000'), // 1201
+    );
+
+    assert.equal(
+      data.toUpperCase(),
+      '0x030000002a1201'.toUpperCase()
+    );
+  });
+});
+
+describe('encodeClaim', () => {
+  it('should encode claim', () => {
+    const data = encodeClaim(
+      BigNumber.from(42), // 0000002a
+      BigNumber.from('500000000'), // 0805
+      BigNumber.from('750'), // 014b
+    );
+
+    assert.equal(
+      data.toUpperCase(),
+      ('0x04' + '0000002a' + '08' + '0805' + '014b').toUpperCase()
     );
   });
 });
