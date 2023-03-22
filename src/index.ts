@@ -138,6 +138,13 @@ export function encodeAllocateOrDeallocate(
   return data;
 }
 
+/**
+ * Encodes the data for a `CLAIM` operation.
+ * @param poolId Id of the pool to claim from
+ * @param fee0 Amount of fee0 to claim
+ * @param fee1 Amount of fee1 to claim
+ * @returns
+ */
 export function encodeClaim(
   poolId: BigNumber,
   fee0: BigNumber,
