@@ -57,7 +57,7 @@ describe('encodeCreatePair', () => {
 
     assert.equal(
       data,
-      '0x0CA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB486B175474E89094C44Da98b954EedeAC495271d0F'
+      '0CA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB486B175474E89094C44Da98b954EedeAC495271d0F'
     );
   });
 });
@@ -78,7 +78,7 @@ describe('encodeCreatePool', () => {
 
     assert.equal(
       data.toUpperCase(),
-      ('0x0B'
+      ('0B'
       + '00002a'
       + 'A0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
       + '0000'
@@ -104,7 +104,7 @@ describe('encodeAllocateOrDeallocate', () => {
 
     assert.equal(
       data.toUpperCase(),
-      '0x010000002a1201'.toUpperCase()
+      '010000002a1201'.toUpperCase()
     );
   });
 
@@ -118,7 +118,7 @@ describe('encodeAllocateOrDeallocate', () => {
 
     assert.equal(
       data.toUpperCase(),
-      '0x030000002a1201'.toUpperCase()
+      '030000002a1201'.toUpperCase()
     );
   });
 });
@@ -133,7 +133,7 @@ describe('encodeClaim', () => {
 
     assert.equal(
       data.toUpperCase(),
-      ('0x04' + '0000002a' + '08' + '0805' + '014b').toUpperCase()
+      ('04' + '0000002a' + '08' + '0805' + '014b').toUpperCase()
     );
   });
 });
@@ -150,7 +150,7 @@ describe('encodeSwap', () => {
 
     assert.equal(
       data.toUpperCase(),
-      ('0x06' + '0000002a' + '08' + '1201' + '0811').toUpperCase(),
+      ('06' + '0000002a' + '08' + '1201' + '0811').toUpperCase(),
     );
   });
 });
