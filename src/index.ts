@@ -12,7 +12,7 @@ const INSTRUCTION_JUMP = "AA";
 /**
  * Converts a BigNumber into a hexadecimal string without the `0x` prefix.
  * @param input BigNumber to convert
- * @returns Hexadecimal representation of the input
+ * @returns Hexadecimal representation of the input (without the `0x` prefix)
  */
 export function bigNumbertoHex(input: BigNumber): string {
   return input._hex.substring(2, input._hex.length);
@@ -21,7 +21,7 @@ export function bigNumbertoHex(input: BigNumber): string {
 /**
  * Converts a uint8 into a hexadecimal string without the `0x` prefix.
  * @param input uint8 to convert
- * @returns Hexadecimal representation of the input
+ * @returns Hexadecimal representation of the input (without the `0x` prefix)
  */
 export function int8ToHex(input: number) {
   if (input > 0xff) {
@@ -34,7 +34,7 @@ export function int8ToHex(input: number) {
 /**
  * Packs a BigNumber amount using our custom encoding (see README.md).
  * @param amount BigNumber to pack
- * @returns Packed amount as a hexadecimal string
+ * @returns Packed amount as a hexadecimal string (without the `0x` prefix)
  */
 export function packAmount(amount: BigNumber) {
   let power = 0;
@@ -47,6 +47,12 @@ export function packAmount(amount: BigNumber) {
   return `${int8ToHex(power)}${bigNumbertoHex(amount)}`;
 }
 
+/**
+ * Encodes the data for a CREATE_PAIR operation.
+ * @param token0 First token address of the pair
+ * @param token1 Second token address of the pair
+ * @returns Hexadecimal representation of the encoded data (with the `0x` prefix)
+ */
 export function encodeCreatePair(
   token0: string,
   token1: string,
