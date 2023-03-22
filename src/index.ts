@@ -69,7 +69,7 @@ export function encodeCreatePair(
   let token0Packed = token0.substring(2, token0.length);
   let token1Packed = token1.substring(2, token1.length);
 
-  return `0x${CREATE_PAIR}${token0Packed}${token1Packed}`;
+  return `${CREATE_PAIR}${token0Packed}${token1Packed}`;
 }
 
 /**
@@ -102,7 +102,7 @@ export function encodeCreatePool(
 
   const packedMaxPrice = packAmount(maxPrice);
 
-  let data = `0x${CREATE_POOL}`;
+  let data = `${CREATE_POOL}`;
   data += bigNumbertoHex(pairId).padStart(6, '0');
   data += controller.substring(2, controller.length);
   data += bigNumbertoHex(priorityFee).padStart(4, '0');
@@ -123,7 +123,7 @@ export function encodeAllocateOrDeallocate(
   poolId: BigNumber,
   amount: BigNumber,
 ): string {
-  let data = `0x${useMax ? '1' : '0'}${shouldAllocate ? ALLOCATE : DEALLOCATE}`;
+  let data = `${useMax ? '1' : '0'}${shouldAllocate ? ALLOCATE : DEALLOCATE}`;
   data += bigNumbertoHex(poolId).padStart(8, '0');
   data += packAmount(amount);
 
@@ -139,7 +139,7 @@ export function encodeClaim(
   const fee1Packed = packAmount(fee1);
   const pointer = 6 + fee0Packed.length / 2;
 
-  let data = `0x${CLAIM}`;
+  let data = `${CLAIM}`;
   data += bigNumbertoHex(poolId).padStart(8, '0');
   data += int8ToHex(pointer);
   data += fee0Packed;
@@ -157,7 +157,7 @@ export function encodeSwap(
 ): string {
   const amount0Packed = packAmount(amount0);
 
-  let data = `0x${useMax ? '1' : '0'}${sellAsset ? SWAP_ASSET : SWAP_QUOTE}`;
+  let data = `${useMax ? '1' : '0'}${sellAsset ? SWAP_ASSET : SWAP_QUOTE}`;
   data += bigNumbertoHex(poolId).padStart(8, '0');
   data += int8ToHex(6 + amount0Packed.length / 2);
   data += amount0Packed;
