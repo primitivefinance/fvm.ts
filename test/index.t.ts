@@ -6,7 +6,7 @@ import {
 import {
   packAmount,
   bigNumbertoHex,
-  int8ToHex,
+  uint8ToHex,
   encodeCreatePair,
   encodeCreatePool,
   encodeAllocateOrDeallocate,
@@ -26,11 +26,11 @@ describe('bigNumbertoHex', () => {
 
 describe('int8ToHex', () => {
   it('should convert to hex', () => {
-    assert.equal(int8ToHex(2), '02');
+    assert.equal(uint8ToHex(2), '02');
   });
 
   it('should convert to hex', () => {
-    assert.equal(int8ToHex(42), '2a');
+    assert.equal(uint8ToHex(42), '2a');
   });
 });
 
