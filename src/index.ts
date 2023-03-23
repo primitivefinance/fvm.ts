@@ -189,3 +189,17 @@ export function encodeSwap(
 
   return data;
 }
+
+export function packInstructions(
+  instructions: string[],
+): string {
+  let data = INSTRUCTION_JUMP;
+  data += int8ToHex(instructions.length);
+
+  for (let i = 0; i < instructions.length; ++i) {
+    data += int8ToHex(instructions[i].length / 2);
+    data += instructions[i];
+  }
+
+  return data;
+}
