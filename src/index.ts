@@ -28,7 +28,7 @@ export function bigNumbertoHex(input: BigNumber): string {
  * @param input uint8 to convert
  * @returns Hexadecimal representation of the input
  */
-export function int8ToHex(input: number) {
+export function uint8ToHex(input: number) {
   if (input > 0xff) {
     throw new Error('Pointer too large');
   }
@@ -49,7 +49,7 @@ export function packAmount(amount: BigNumber) {
     ++power;
   }
 
-  return `${int8ToHex(power)}${bigNumbertoHex(amount)}`;
+  return `${uint8ToHex(power)}${bigNumbertoHex(amount)}`;
 }
 
 /**
@@ -110,7 +110,7 @@ export function encodeCreatePool(
   data += bigNumbertoHex(vol).padStart(4, '0');
   data += bigNumbertoHex(dur).padStart(4, '0');
   data += bigNumbertoHex(jit).padStart(4, '0');
-  data += int8ToHex(35 + packedMaxPrice.length / 2);
+  data += uint8ToHex(35 + packedMaxPrice.length / 2);
   data += packedMaxPrice;
   data += packAmount(price);
 
@@ -156,7 +156,7 @@ export function encodeClaim(
 
   let data = `${CLAIM}`;
   data += bigNumbertoHex(poolId).padStart(8, '0');
-  data += int8ToHex(pointer);
+  data += uint8ToHex(pointer);
   data += fee0Packed;
   data += fee1Packed;
 
@@ -183,7 +183,7 @@ export function encodeSwap(
 
   let data = `${useMax ? '1' : '0'}${sellAsset ? SWAP_ASSET : SWAP_QUOTE}`;
   data += bigNumbertoHex(poolId).padStart(8, '0');
-  data += int8ToHex(6 + amount0Packed.length / 2);
+  data += uint8ToHex(6 + amount0Packed.length / 2);
   data += amount0Packed;
   data += packAmount(amount1);
 
@@ -194,10 +194,10 @@ export function packInstructions(
   instructions: string[],
 ): string {
   let data = INSTRUCTION_JUMP;
-  data += int8ToHex(instructions.length);
+  data += uint8ToHex(instructions.length);
 
   for (let i = 0; i < instructions.length; ++i) {
-    data += int8ToHex(instructions[i].length / 2);
+    data += uint8ToHex(instructions[i].length / 2);
     data += instructions[i];
   }
 
