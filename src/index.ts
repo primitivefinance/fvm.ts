@@ -190,6 +190,13 @@ export function encodeSwap(
   return data;
 }
 
+/**
+ * Packs multiple instructions together.
+ * See https://github.com/primitivefinance/portfolio/blob/main/contracts/libraries/FVMLib.sol#L54
+ * for more details regarding the packing.
+ * @param instructions An array of encoded operations
+ * @returns Packed encoded operations as a hexadecimal string
+ */
 export function packInstructions(
   instructions: string[],
 ): string {
