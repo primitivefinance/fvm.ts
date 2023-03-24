@@ -12,6 +12,7 @@ import {
   encodeAllocateOrDeallocate,
   encodeClaim,
   encodeSwap,
+  packInstructions,
 } from '../src/index';
 
 describe('bigNumbertoHex', () => {
@@ -154,3 +155,35 @@ describe('encodeSwap', () => {
     );
   });
 });
+
+describe('packInstructions', () => {
+  it('should pack instructions together', () => {
+    const swap1 = encodeSwap(
+      false,
+      BigNumber.from(42), // 0000002a
+      BigNumber.from('1000000000000000000'), // 1201
+      BigNumber.from('1700000000'), // 0811
+      true
+    );
+
+    const swap2 = encodeSwap(
+      false,
+      BigNumber.from(40), // 00000028
+      BigNumber.from('1700000000'), // 0811
+      BigNumber.from('100000000000000000'), // 1101
+      true
+    );
+
+    const data = packInstructions([swap1, swap2]);
+
+    assert.equal(
+      data.toUpperCase(),
+      ('AA'
+      + '02'
+      + uint8ToHex(swap1.length / 2)
+      + '06' + '0000002a' + '08' + '1201' + '0811'
+      + uint8ToHex(swap2.length / 2)
+      + '06' + '00000028' + '08' + '0811' + '1101').toUpperCase()
+    );
+  });
+})
