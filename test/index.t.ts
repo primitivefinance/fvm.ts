@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 
 import {
-  BigNumber,
+  BigNumber, ethers,
 } from 'ethers';
 import {
   packAmount,
@@ -13,6 +13,10 @@ import {
   encodeClaim,
   encodeSwap,
   packInstructions,
+  decodeSwap,
+  decodeAllocateOrDeallocate,
+  decodeCreatePool,
+  decodeCreatePair
 } from '../src/index';
 
 describe('bigNumbertoHex', () => {
@@ -186,4 +190,133 @@ describe('packInstructions', () => {
       + '06' + '00000028' + '08' + '0811' + '1101').toUpperCase()
     );
   });
+})
+
+
+describe('decodeSwap', () => {
+  it('should decode swap', () => {
+
+    const [poolId, amountIn, amountOut, sellAsset] = [
+      BigNumber.from(42), // 0000002a
+      BigNumber.from('1000000000000000000'), // 1201
+      BigNumber.from('1700000000'), // 0811
+      true
+    ];
+
+    const data = encodeSwap(
+      false,
+      BigNumber.from(42), // 0000002a
+      BigNumber.from('1000000000000000000'), // 1201
+      BigNumber.from('1700000000'), // 0811
+      true
+    );
+
+    const decoded = decodeSwap(data);
+
+    assert.equal(decoded.poolId.toHexString(), poolId.toHexString());
+    assert.equal(decoded.amountIn.toHexString(), amountIn.toHexString());
+    assert.equal(decoded.amountOut.toHexString(), amountOut.toHexString());
+    assert.equal(decoded.sellAsset, sellAsset);
+  })
+})
+
+describe('decodeAllocateOrDeallocate', () => {
+  it('should decode allocate', () => {
+    const [poolId, amount] = [
+      BigNumber.from(42), // 0000002a
+      BigNumber.from('1000000000000000000'), // 1201
+    ];
+
+    const data = encodeAllocateOrDeallocate(
+      true,
+      false,
+      BigNumber.from(42), // 0000002a
+      BigNumber.from('1000000000000000000'), // 1201
+    );
+
+    const decoded = decodeAllocateOrDeallocate(data);
+
+    assert.equal(decoded.poolId.toHexString(), poolId.toHexString());
+    assert.equal(decoded.amount.toHexString(), amount.toHexString());
+  })
+
+  it('should decode deallocate', () => {
+    const [poolId, amount] = [
+      BigNumber.from(42), // 0000002a
+      BigNumber.from('1000000000000000000'), // 1201
+    ];
+
+    const data = encodeAllocateOrDeallocate(
+      false,
+      false,
+      BigNumber.from(42), // 0000002a
+      BigNumber.from('1000000000000000000'), // 1201
+    );
+
+    const decoded = decodeAllocateOrDeallocate(data);
+
+    assert.equal(decoded.poolId.toHexString(), poolId.toHexString());
+    assert.equal(decoded.amount.toHexString(), amount.toHexString());
+  })
+})
+
+describe('decodeCreatePool', () => {
+  it('should decode create pool with decodeCreatePool', () => {
+    const [pairId, controller, priorityFee, fee, vol, dur, jit, max, price] = [
+      BigNumber.from(42), // 0000002a
+      ethers.constants.AddressZero,
+      // cannot be zero values, must be > 100
+      BigNumber.from(10), // priority fee
+      BigNumber.from(100), // fee
+      BigNumber.from(100),// vol
+      BigNumber.from(100),// dur
+      BigNumber.from(100),// jit
+      BigNumber.from(100),// max
+      BigNumber.from(100),// price
+    ];
+
+    const data = encodeCreatePool(
+      pairId,
+      controller,
+      priorityFee,
+      fee,
+      vol,
+      dur,
+      jit,
+      max,
+      price,
+    );
+
+    const decoded = decodeCreatePool(data);
+
+    assert.equal(decoded.pairId.toHexString(), pairId.toHexString());
+    assert.equal(decoded.controller, controller);
+    assert.equal(decoded.priorityFee.toHexString(), priorityFee.toHexString());
+    assert.equal(decoded.fee.toHexString(), fee.toHexString());
+    assert.equal(decoded.vol.toHexString(), vol.toHexString());
+    assert.equal(decoded.dur.toHexString(), dur.toHexString());
+    assert.equal(decoded.jit.toHexString(), jit.toHexString());
+    assert.equal(decoded.maxPrice.toHexString(), max.toHexString());
+    assert.equal(decoded.price.toHexString(), price.toHexString());
+  })
+})
+
+
+describe('decodeCreatePair', () => {
+  it('should decode create pair', () => {
+    const [token0, token1] = [
+      ethers.constants.AddressZero,
+      ethers.constants.AddressZero,
+    ];
+
+    const data = encodeCreatePair(
+      token0,
+      token1
+    );
+
+    const decoded = decodeCreatePair(data);
+
+    assert.equal(decoded.token0, token0);
+    assert.equal(decoded.token1, token1);
+  })
 })

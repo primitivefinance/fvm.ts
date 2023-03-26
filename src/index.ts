@@ -23,6 +23,10 @@ export function bigNumbertoHex(input: BigNumber): string {
   return input._hex.substring(2, input._hex.length);
 }
 
+export function hexToBigNumber(input: string): BigNumber {
+  return BigNumber.from(`0x${input}`);
+}
+
 /**
  * Converts a uint8 into a hexadecimal string.
  * @param input uint8 to convert
@@ -50,6 +54,17 @@ export function packAmount(amount: BigNumber) {
   }
 
   return `${uint8ToHex(power)}${bigNumbertoHex(amount)}`;
+}
+
+/**
+ * Unpacks a BigNumber amount using our custom encoding (see README.md).
+ * @param amount BigNumber to unpack
+ * @returns Unpacked amount as a BigNumber
+ */
+export function unpackAmount(amount: string): BigNumber {
+  const power = parseInt(amount.substring(0, 2), 16);
+  const value = parseInt(amount.substring(2, amount.length), 16);
+  return BigNumber.from(value).mul(BigNumber.from(10).pow(power));
 }
 
 /**
@@ -189,6 +204,105 @@ export function encodeSwap(
 
   return data;
 }
+
+// Make a function decodeSwap that inverses encodeSwap
+export function decodeSwap(
+  data: string,
+): {
+  useMax: boolean;
+  poolId: BigNumber;
+  amountIn: BigNumber;
+  amountOut: BigNumber;
+  sellAsset: boolean;
+} {
+  const useMax = data[0] === '1';
+  const sellAsset = data[1] === '6';
+  const poolId = hexToBigNumber(data.substring(2, 10));
+  const pointer = Number(data.substring(10, 12)) * 2 // 2 hex chars per byte
+  const amountIn = unpackAmount(data.substring(12, pointer));
+  const amountOut = unpackAmount(data.substring(pointer, 26));
+
+  return {
+    useMax,
+    poolId,
+    amountIn,
+    amountOut,
+    sellAsset,
+  };
+}
+
+// Make a function decodeAllocateOrDeallocate that inverses encodeAllocateOrDeallocate
+export function decodeAllocateOrDeallocate(
+  data: string,
+): {
+  shouldAllocate: boolean;
+  useMax: boolean;
+  poolId: BigNumber;
+  amount: BigNumber;
+} {
+  const shouldAllocate = data[1] === '1';
+  const useMax = data[0] === '1';
+  const poolId = hexToBigNumber(data.substring(2, 10));
+  const amount = unpackAmount(data.substring(10, 26));
+  
+  return {
+    shouldAllocate,
+    useMax,
+    poolId,
+    amount,
+  };
+}
+
+// Make a function decodeCreatePool that inverses encodeCreatePool
+export function decodeCreatePool(
+  data: string,
+): {
+  pairId: BigNumber;
+  controller: string;
+  priorityFee: BigNumber;
+  fee: BigNumber;
+  vol: BigNumber;
+  dur: BigNumber;
+  jit: BigNumber;
+  maxPrice: BigNumber;
+  price: BigNumber;
+} {
+  const pairId = hexToBigNumber(data.substring(2, 8));
+  const controller = `0x${data.substring(8, 48)}`;
+  const priorityFee = hexToBigNumber(data.substring(48, 52));
+  const fee = hexToBigNumber(data.substring(52, 56));
+  const vol = hexToBigNumber(data.substring(56, 60));
+  const dur = hexToBigNumber(data.substring(60, 64));
+  const jit = hexToBigNumber(data.substring(64, 68));
+  const pointer = hexToBigNumber(data.substring(68, 70)).mul(2).toNumber() // 2 hex chars per byte
+  const maxPrice = unpackAmount(data.substring(70, pointer));
+  const price = unpackAmount(data.substring(pointer));
+
+  return {
+    pairId,
+    controller,
+    priorityFee,
+    fee,
+    vol,
+    dur,
+    jit,
+    maxPrice,
+    price,
+  };
+}
+
+// Decodes a createPair instruction of two addresses
+export function decodeCreatePair(data: string): { token0: string; token1: string } {
+  const token0 = `0x${data.substring(2, 42)}`;
+  const token1 = `0x${data.substring(42, 82)}`;
+
+  return {
+    token0,
+    token1,
+  };
+}
+
+
 
 /**
  * Packs multiple instructions together.
