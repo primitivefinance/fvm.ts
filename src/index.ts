@@ -5,7 +5,7 @@ import { BigNumber } from "ethers";
  * represented as hexadecimal strings without the `0x` prefix. Strings with a
  * single character will be packed later with an extra parameter.
  */
-const ALLOCATE = "1";
+const ALLOCATE = "2";
 const DEALLOCATE = "3";
 const CLAIM = "04";
 const SWAP_QUOTE = "5";
