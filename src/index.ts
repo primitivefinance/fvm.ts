@@ -5,7 +5,7 @@ import { BigNumber } from "ethers";
  * represented as hexadecimal strings without the `0x` prefix. Strings with a
  * single character will be packed later with an extra parameter.
  */
-const ALLOCATE = "2";
+const ALLOCATE = "1";
 const DEALLOCATE = "3";
 const CLAIM = "04";
 const SWAP_QUOTE = "5";
@@ -30,10 +30,10 @@ export function bigNumbertoHex(input: BigNumber): string {
  */
 export function uint8ToHex(input: number) {
   if (input > 0xff) {
-    throw new Error('Pointer too large');
+    throw new Error("Pointer too large");
   }
 
-  return input.toString(16).padStart(2, '0');
+  return input.toString(16).padStart(2, "0");
 }
 
 /**
@@ -58,12 +58,9 @@ export function packAmount(amount: BigNumber) {
  * @param token1 Second token address of the pair
  * @returns Hexadecimal representation of the encoded data
  */
-export function encodeCreatePair(
-  token0: string,
-  token1: string,
-): string {
+export function encodeCreatePair(token0: string, token1: string): string {
   if (token0.length !== 42 || token1.length !== 42) {
-    throw new Error('Invalid token address');
+    throw new Error("Invalid token address");
   }
 
   let token0Packed = token0.substring(2, token0.length);
@@ -97,19 +94,19 @@ export function encodeCreatePool(
   price: BigNumber
 ): string {
   if (controller.length !== 42) {
-    throw new Error('Invalid controller address');
+    throw new Error("Invalid controller address");
   }
 
   const packedMaxPrice = packAmount(maxPrice);
 
   let data = `${CREATE_POOL}`;
-  data += bigNumbertoHex(pairId).padStart(6, '0');
+  data += bigNumbertoHex(pairId).padStart(6, "0");
   data += controller.substring(2, controller.length);
-  data += bigNumbertoHex(priorityFee).padStart(4, '0');
-  data += bigNumbertoHex(fee).padStart(4, '0');
-  data += bigNumbertoHex(vol).padStart(4, '0');
-  data += bigNumbertoHex(dur).padStart(4, '0');
-  data += bigNumbertoHex(jit).padStart(4, '0');
+  data += bigNumbertoHex(priorityFee).padStart(4, "0");
+  data += bigNumbertoHex(fee).padStart(4, "0");
+  data += bigNumbertoHex(vol).padStart(4, "0");
+  data += bigNumbertoHex(dur).padStart(4, "0");
+  data += bigNumbertoHex(jit).padStart(4, "0");
   data += uint8ToHex(35 + packedMaxPrice.length / 2);
   data += packedMaxPrice;
   data += packAmount(price);
@@ -129,10 +126,10 @@ export function encodeAllocateOrDeallocate(
   shouldAllocate: boolean,
   useMax: boolean,
   poolId: BigNumber,
-  amount: BigNumber,
+  amount: BigNumber
 ): string {
-  let data = `${useMax ? '1' : '0'}${shouldAllocate ? ALLOCATE : DEALLOCATE}`;
-  data += bigNumbertoHex(poolId).padStart(8, '0');
+  let data = `${useMax ? "1" : "0"}${shouldAllocate ? ALLOCATE : DEALLOCATE}`;
+  data += bigNumbertoHex(poolId).padStart(8, "0");
   data += packAmount(amount);
 
   return data;
@@ -148,14 +145,14 @@ export function encodeAllocateOrDeallocate(
 export function encodeClaim(
   poolId: BigNumber,
   fee0: BigNumber,
-  fee1: BigNumber,
+  fee1: BigNumber
 ): string {
   const fee0Packed = packAmount(fee0);
   const fee1Packed = packAmount(fee1);
   const pointer = 6 + fee0Packed.length / 2;
 
   let data = `${CLAIM}`;
-  data += bigNumbertoHex(poolId).padStart(8, '0');
+  data += bigNumbertoHex(poolId).padStart(8, "0");
   data += uint8ToHex(pointer);
   data += fee0Packed;
   data += fee1Packed;
@@ -177,12 +174,12 @@ export function encodeSwap(
   poolId: BigNumber,
   amount0: BigNumber,
   amount1: BigNumber,
-  sellAsset: boolean,
+  sellAsset: boolean
 ): string {
   const amount0Packed = packAmount(amount0);
 
-  let data = `${useMax ? '1' : '0'}${sellAsset ? SWAP_ASSET : SWAP_QUOTE}`;
-  data += bigNumbertoHex(poolId).padStart(8, '0');
+  let data = `${useMax ? "1" : "0"}${sellAsset ? SWAP_ASSET : SWAP_QUOTE}`;
+  data += bigNumbertoHex(poolId).padStart(8, "0");
   data += uint8ToHex(6 + amount0Packed.length / 2);
   data += amount0Packed;
   data += packAmount(amount1);
@@ -197,9 +194,7 @@ export function encodeSwap(
  * @param instructions An array of encoded operations
  * @returns Packed encoded operations as a hexadecimal string
  */
-export function packInstructions(
-  instructions: string[],
-): string {
+export function packInstructions(instructions: string[]): string {
   let data = INSTRUCTION_JUMP;
   data += uint8ToHex(instructions.length);
 

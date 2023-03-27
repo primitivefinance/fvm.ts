@@ -3,8 +3,7 @@
   "pipeline": {
     "build": {
       "inputs": [
-        "src/**/*.ts",
-        "test/**/*.ts"
+        "src/**/*.ts"
       ],
       "outputs": [
         "build/**"
@@ -12,8 +11,7 @@
     },
     "test": {
       "inputs": [
-        "src/**/*.ts",
-        "test/**/*.ts"
+        "test/**/*.t.ts"
       ],
       "outputs": [
         "test/.next/**",

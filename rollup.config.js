@@ -6,10 +6,9 @@ export default {
   input: "src/index.ts",
   output: [
     {
-      file: pkg.main,
-      format: "umd",
-      name: "FVM.ts",
-      sourcemap: true,
+      file: pkg.module,
+      format: "es",
+      name: "ES module output",
     }
   ],
   external: [
