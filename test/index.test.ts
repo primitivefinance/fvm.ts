@@ -32,6 +32,9 @@ describe("int8ToHex", () => {
 });
 
 describe("packAmount", () => {
+  test("should pack 0 into 0001", () => {
+    expect(packAmount(BigNumber.from("0"))).toBe("0000");
+  });
   test("should pack 1 into 0001", () => {
     expect(packAmount(BigNumber.from(1))).toBe("0001");
   });
